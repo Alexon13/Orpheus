@@ -7,3 +7,7 @@ struct Position {
 struct Velocity {
     float dx, dy;
 };
+
+struct Size {
+    float width, height;
+};

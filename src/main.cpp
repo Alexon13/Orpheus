@@ -1,8 +1,8 @@
 #include <SDL2/SDL.h>
 #include "EntityManager.h"
 #include "Components.h"
-#include "MovementSystem.h"
-#include "RenderingSystem.h"
+#include "CollisionSystem.h"
+#include <iostream>
 
 int main(int argc, char* argv[]) {
     // Initialize SDL
@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
     }
 
     SDL_Window* window = SDL_CreateWindow(
-        "Orpheus Engine - ECS",
+        "Orpheus Engine - Collision Detection with Movement",
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         800, 600, SDL_WINDOW_SHOWN
     );
@@ -33,23 +33,24 @@ int main(int argc, char* argv[]) {
 
     // ECS setup
     EntityManager entityManager;
-    ComponentManager componentManager;
-    MovementSystem movementSystem;
-    RenderingSystem renderingSystem(renderer);
+    CollisionSystem collisionSystem;
 
     // Create entities
     Entity entity1 = entityManager.createEntity();
     Position pos1 = {100, 100};
-    Velocity vel1 = {50, 0};
-    componentManager.addComponent(entity1, pos1);
-    componentManager.addComponent(entity1, vel1);
-    movementSystem.addEntity(entity1, componentManager.getComponent<Position>(entity1), componentManager.getComponent<Velocity>(entity1));
-    renderingSystem.addEntity(entity1, componentManager.getComponent<Position>(entity1));
+    Size size1 = {50, 50};
+    Velocity vel1 = {2, 2}; // Entity1 moves diagonally
+    collisionSystem.addEntity(entity1, &pos1, &size1);
+
+    Entity entity2 = entityManager.createEntity();
+    Position pos2 = {400, 300}; // Stationary entity
+    Size size2 = {50, 50};
+    Velocity vel2 = {0, 0}; // No velocity for entity2
+    collisionSystem.addEntity(entity2, &pos2, &size2);
 
     // Main loop
     bool isRunning = true;
     SDL_Event event;
-    float deltaTime = 0.016f;
 
     while (isRunning) {
         while (SDL_PollEvent(&event)) {
@@ -58,14 +59,32 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        // Update
-        movementSystem.update(deltaTime);
+        // Update entity1 position using its velocity
+        pos1.x += vel1.dx;
+        pos1.y += vel1.dy;
 
-        // Render
+        // Collision detection
+        collisionSystem.checkCollisions([](Entity a, Entity b) {
+            std::cout << "Collision detected between Entity " << a << " and Entity " << b << std::endl;
+        });
+
+        // Render entities
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
-        renderingSystem.render();
+
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Entity1 (moving)
+        SDL_Rect rect1 = { static_cast<int>(pos1.x), static_cast<int>(pos1.y), static_cast<int>(size1.width), static_cast<int>(size1.height) };
+        SDL_RenderFillRect(renderer, &rect1);
+
+        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255); // Entity2 (stationary)
+        SDL_Rect rect2 = { static_cast<int>(pos2.x), static_cast<int>(pos2.y), static_cast<int>(size2.width), static_cast<int>(size2.height) };
+        SDL_RenderFillRect(renderer, &rect2);
+
         SDL_RenderPresent(renderer);
+
+        // Simple boundary check to prevent entity1 from going off-screen
+        if (pos1.x < 0 || pos1.x + size1.width > 800) vel1.dx = -vel1.dx;
+        if (pos1.y < 0 || pos1.y + size1.height > 600) vel1.dy = -vel1.dy;
     }
 
     // Cleanup
