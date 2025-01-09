@@ -6,11 +6,18 @@
 class DebugSystem {
 private:
     SDL_Renderer* renderer;
+    bool debugEnabled = false;
 
 public:
     explicit DebugSystem(SDL_Renderer* renderer) : renderer(renderer) {}
 
+    void toggleDebug() {
+        debugEnabled = !debugEnabled; // Toggle debug state
+    }
+
     void drawCollisionBox(Position* pos, Size* size) {
+       if (!debugEnabled) return; // Skip if debug mode is off
+
         SDL_Rect rect = {
             static_cast<int>(pos->x),
             static_cast<int>(pos->y),
@@ -22,6 +29,7 @@ public:
     }
 
     void drawVelocityVector(Position* pos, Velocity* vel) {
+        if (!debugEnabled) return; // Skip if debug mode is off
         int startX = static_cast<int>(pos->x + 25); // Center of the entity (assuming size 50x50)
         int startY = static_cast<int>(pos->y + 25);
         int endX = startX + static_cast<int>(vel->dx * 10); // Scale velocity for better visualization
@@ -32,6 +40,7 @@ public:
     }
 
     void drawForceVector(Position* pos, Force* force) {
+        if (!debugEnabled) return; // Skip if debug mode is off
         int startX = static_cast<int>(pos->x + 25); // Center of the entity
         int startY = static_cast<int>(pos->y + 25);
         int endX = startX + static_cast<int>(force->fx * 0.1); // Scale force for better visualization
