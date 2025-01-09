@@ -1,0 +1,10 @@
+# Build files and directories
+/build/
+CMakeFiles/
+CMakeCache.txt
+
+# macOS specific
+.DS_Store
+
+# Logs
+*.log
