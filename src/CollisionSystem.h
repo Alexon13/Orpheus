@@ -1,35 +1,37 @@
 #pragma once
-#include <unordered_map>
-#include <vector>
+#include <unordered_set>
 #include <functional>
 #include "Components.h"
+#include "EntityManager.h"
 
 class CollisionSystem {
 private:
-    struct EntityData {
-        Position* position;
-        Size* size;
-    };
-
-    std::unordered_map<Entity, EntityData> entities;
+    ComponentManager& componentManager;
+    std::unordered_set<Entity> entities;
 
 public:
-    void addEntity(Entity entity, Position* position, Size* size) {
-        entities[entity] = { position, size };
+    explicit CollisionSystem(ComponentManager& cm) : componentManager(cm) {}
+
+    void addEntity(Entity entity) {
+        entities.insert(entity);
+    }
+
+    void removeEntity(Entity entity) {
+        entities.erase(entity);
     }
 
     void checkCollisions(const std::function<void(Entity, Entity)>& onCollision) {
-        std::vector<Entity> entityList;
-        for (const auto& [entity, data] : entities) {
-            entityList.push_back(entity);
-        }
+        for (auto it1 = entities.begin(); it1 != entities.end(); ++it1) {
+            for (auto it2 = std::next(it1); it2 != entities.end(); ++it2) {
+                Entity a = *it1;
+                Entity b = *it2;
 
-        for (size_t i = 0; i < entityList.size(); ++i) {
-            for (size_t j = i + 1; j < entityList.size(); ++j) {
-                Entity a = entityList[i];
-                Entity b = entityList[j];
+                Position* posA = componentManager.getComponent<Position>(a);
+                Size* sizeA = componentManager.getComponent<Size>(a);
+                Position* posB = componentManager.getComponent<Position>(b);
+                Size* sizeB = componentManager.getComponent<Size>(b);
 
-                if (isColliding(entities[a], entities[b])) {
+                if (posA && sizeA && posB && sizeB && isColliding(posA, sizeA, posB, sizeB)) {
                     onCollision(a, b);
                 }
             }
@@ -37,10 +39,10 @@ public:
     }
 
 private:
-    bool isColliding(const EntityData& a, const EntityData& b) {
-        return (a.position->x < b.position->x + b.size->width &&
-                a.position->x + a.size->width > b.position->x &&
-                a.position->y < b.position->y + b.size->height &&
-                a.position->y + a.size->height > b.position->y);
+    bool isColliding(Position* posA, Size* sizeA, Position* posB, Size* sizeB) {
+        return (posA->x < posB->x + sizeB->width &&
+                posA->x + sizeA->width > posB->x &&
+                posA->y < posB->y + sizeB->height &&
+                posA->y + sizeA->height > posB->y);
     }
 };

@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
     componentManager.addComponent(entity1, Size{50, 50});
     componentManager.addComponent(entity1, Mass{1.0f});
     componentManager.addComponent(entity1, Friction{0});
-    componentManager.addComponent(entity1, Force{0.0f, 0.0f});
+    componentManager.addComponent(entity1, Force{20.0f, 0.0f});
     physicsSystem.addEntity(entity1);
 
     // Create Entity 2
@@ -60,6 +60,11 @@ int main(int argc, char* argv[]) {
     bool isRunning = true;
     SDL_Event event;
     float deltaTime = 0.016f; // ~60 FPS
+
+    auto onCollision = [](Entity a, Entity b) {
+        std::cout << "Collision detected between Entity " << a << " and Entity " << b << std::endl;
+    };
+
 
     while (isRunning) {
         while (SDL_PollEvent(&event)) {
