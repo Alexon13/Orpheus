@@ -40,11 +40,11 @@ int main(int argc, char* argv[]) {
     // Create Entity 1 for testing purposes
     Entity entity1 = entityManager.createEntity();
     componentManager.addComponent(entity1, Position{100, 100});
-    componentManager.addComponent(entity1, Velocity{0, 0});
+    componentManager.addComponent(entity1, Velocity{50, 0}); //Initial velocity for testing purposes
     componentManager.addComponent(entity1, Size{50, 50});
     componentManager.addComponent(entity1, Mass{1.0f});
     componentManager.addComponent(entity1, Friction{0});
-    componentManager.addComponent(entity1, Force{20.0f, 0.0f}); // Induce a rightward force for testing
+    componentManager.addComponent(entity1, Force{0.0f, 0.0f});
     physicsSystem.addEntity(entity1);
 
     // Create Entity 2 for testing purposes

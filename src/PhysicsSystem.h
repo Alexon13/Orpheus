@@ -85,6 +85,9 @@ private:
         Mass* massA = componentManager.getComponent<Mass>(a);
         Mass* massB = componentManager.getComponent<Mass>(b);
 
+        // Friction coefficient for collisions (e.g., 0.9 for 10% energy loss)
+        const float collisionFriction = 0.9f;
+
         if (velA && velB && massA && massB) {
             float mA = massA->value;
             float mB = massB->value;
@@ -96,11 +99,11 @@ private:
             float newVelA_Y = (velA->dy * (mA - mB) + 2 * mB * velB->dy) / (mA + mB);
             float newVelB_Y = (velB->dy * (mB - mA) + 2 * mA * velA->dy) / (mA + mB);
 
-            // Update velocities
-            velA->dx = newVelA_X;
-            velA->dy = newVelA_Y;
-            velB->dx = newVelB_X;
-            velB->dy = newVelB_Y;
+            // Update velocities (with energy loss)
+            velA->dx = newVelA_X * collisionFriction;
+            velA->dy = newVelA_Y * collisionFriction;
+            velB->dx = newVelB_X * collisionFriction;
+            velB->dy = newVelB_Y * collisionFriction;
         }
     }
 };
