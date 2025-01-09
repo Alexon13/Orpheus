@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
     }
 
     SDL_Window* window = SDL_CreateWindow(
-        "Orpheus Engine - Physics System (Earth Gravity)",
+        "Orpheus Engine - Enhanced Physics",
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         800, 600, SDL_WINDOW_SHOWN
     );
@@ -38,11 +38,13 @@ int main(int argc, char* argv[]) {
     // Create an entity with physics components
     Entity entity1 = entityManager.createEntity();
     Position pos1 = {100, 100};
-    Velocity vel1 = {10, 0};
+    Velocity vel1 = {0, 0};
     Acceleration acc1 = {0, 0};
-    Mass mass1 = {1.0f}; // Unit mass
+    Mass mass1 = {1.0f};
+    Friction friction1 = {0.05f};
+    Force force1 = {10.0f, 0}; // Initial force applied (e.g., jump)
 
-    physicsSystem.addEntity(entity1, &pos1, &vel1, &acc1, &mass1);
+    physicsSystem.addEntity(entity1, &pos1, &vel1, &acc1, &mass1, &friction1, &force1);
 
     // Main loop
     bool isRunning = true;
@@ -64,7 +66,7 @@ int main(int argc, char* argv[]) {
         SDL_RenderClear(renderer);
 
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-        SDL_Rect rect1 = { static_cast<int>(pos1.x), static_cast<int>(pos1.y), 50, 50 }; // Assuming size is 50x50
+        SDL_Rect rect1 = { static_cast<int>(pos1.x), static_cast<int>(pos1.y), 50, 50 };
         SDL_RenderFillRect(renderer, &rect1);
 
         SDL_RenderPresent(renderer);
