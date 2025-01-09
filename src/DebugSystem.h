@@ -64,8 +64,8 @@ public:
     void drawVelocityVector(Position* pos, Velocity* vel) {
         int startX = static_cast<int>(pos->x + 25); // Assuming center for a 50x50 size entity
         int startY = static_cast<int>(pos->y + 25);
-        int endX = startX + static_cast<int>(vel->dx * 10); // Scale for visualization
-        int endY = startY + static_cast<int>(vel->dy * 10);
+        int endX = startX + static_cast<int>(vel->dx * 7); // Scale for better visualization
+        int endY = startY + static_cast<int>(vel->dy * 7);
 
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red for velocity vectors
         SDL_RenderDrawLine(renderer, startX, startY, endX, endY);
@@ -75,8 +75,8 @@ public:
     void drawForceVector(Position* pos, Force* force) {
         int startX = static_cast<int>(pos->x + 25); // Assuming center for a 50x50 size entity
         int startY = static_cast<int>(pos->y + 25);
-        int endX = startX + static_cast<int>(force->fx * 0.1); // Scale for visualization
-        int endY = startY + static_cast<int>(force->fy * 0.1);
+        int endX = startX + static_cast<int>(force->fx * 3); // Scale for better visualization
+        int endY = startY + static_cast<int>(force->fy * 3);
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Blue for force vectors
         SDL_RenderDrawLine(renderer, startX, startY, endX, endY);

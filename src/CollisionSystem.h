@@ -19,7 +19,7 @@ public:
     void removeEntity(Entity entity) {
         entities.erase(entity);
     }
-
+    // Check for a collision event between entities
     void checkCollisions(const std::function<void(Entity, Entity)>& onCollision) {
         for (auto it1 = entities.begin(); it1 != entities.end(); ++it1) {
             for (auto it2 = std::next(it1); it2 != entities.end(); ++it2) {
@@ -39,6 +39,7 @@ public:
     }
 
 private:
+    // Collision logic
     bool isColliding(Position* posA, Size* sizeA, Position* posB, Size* sizeB) {
         return (posA->x < posB->x + sizeB->width &&
                 posA->x + sizeA->width > posB->x &&

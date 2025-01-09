@@ -59,7 +59,7 @@ public:
 };
 
 
-// Component Manager to store and manage components
+// Component Manager to store and manage components of entities
 class ComponentManager {
 private:
     std::unordered_map<std::type_index, std::unordered_map<Entity, std::shared_ptr<void>>> components;

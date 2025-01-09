@@ -1,19 +1,19 @@
 #pragma once
 
 struct Position {
-    float x, y; // Position of an entity
+    float x, y; // Current Position of an entity
 };
 
 struct Velocity {
-    float dx, dy; // Velocity in terms of x and y
+    float dx, dy; // Current Velocity in terms of x and y
 };
 
 struct Size {
-    float width, height; // Size of entity
+    float width, height; // Size of an entity
 };
 
 struct Acceleration {
-    float ax, ay; // Acceleration in x and y directions
+    float ax, ay; // Current Acceleration in x and y directions
 };
 
 struct Mass {
@@ -21,7 +21,7 @@ struct Mass {
 };
 
 struct Friction {
-    float coefficient; // Friction coefficient (0 = no friction, 1 = full stop)
+    float coefficient; // Friction coefficient applied (0 = no friction, 1 = full stop)
 };
 
 struct Force {

@@ -27,6 +27,7 @@ public:
         collisionSystem.removeEntity(entity);
     }
 
+    // Get components and keep with updating each frame
     void update(float deltaTime) {
         for (Entity entity : entities) {
             Position* pos = componentManager.getComponent<Position>(entity);
@@ -69,23 +70,37 @@ public:
                 }
             }
         }
-
+        
+        // Update whenever a collision is detected
         collisionSystem.checkCollisions([this](Entity a, Entity b) {
             handleCollision(a, b);
         });
     }
 
 private:
+    // Handle Collisions between two entities using (updated to reflect mass)
     void handleCollision(Entity a, Entity b) {
         Velocity* velA = componentManager.getComponent<Velocity>(a);
         Velocity* velB = componentManager.getComponent<Velocity>(b);
-        
-        if (velA && velB) {
-            // Simple bounce response
-            velA->dx = -velA->dx;
-            velA->dy = -velA->dy;
-            velB->dx = -velB->dx;
-            velB->dy = -velB->dy;
+        Mass* massA = componentManager.getComponent<Mass>(a);
+        Mass* massB = componentManager.getComponent<Mass>(b);
+
+        if (velA && velB && massA && massB) {
+            float mA = massA->value;
+            float mB = massB->value;
+
+            // Calculate new velocities using the elastic collision equations
+            float newVelA_X = (velA->dx * (mA - mB) + 2 * mB * velB->dx) / (mA + mB);
+            float newVelB_X = (velB->dx * (mB - mA) + 2 * mA * velA->dx) / (mA + mB);
+
+            float newVelA_Y = (velA->dy * (mA - mB) + 2 * mB * velB->dy) / (mA + mB);
+            float newVelB_Y = (velB->dy * (mB - mA) + 2 * mA * velA->dy) / (mA + mB);
+
+            // Update velocities
+            velA->dx = newVelA_X;
+            velA->dy = newVelA_Y;
+            velB->dx = newVelB_X;
+            velB->dy = newVelB_Y;
         }
     }
 };
