@@ -3,6 +3,7 @@
 #include "Components.h"
 #include "PhysicsSystem.h"
 #include "CollisionSystem.h"
+#include "DebugSystem.h"
 #include <iostream>
 
 int main(int argc, char* argv[]) {
@@ -13,7 +14,7 @@ int main(int argc, char* argv[]) {
     }
 
     SDL_Window* window = SDL_CreateWindow(
-        "Orpheus Engine - Full Physics with Collision",
+        "Orpheus Engine - Physics Debugging",
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         800, 600, SDL_WINDOW_SHOWN
     );
@@ -36,11 +37,12 @@ int main(int argc, char* argv[]) {
     EntityManager entityManager;
     PhysicsSystem physicsSystem;
     CollisionSystem collisionSystem;
+    DebugSystem debugSystem(renderer);
 
     // Create entities
     Entity entity1 = entityManager.createEntity();
     Position pos1 = {100, 600};
-    Velocity vel1 = {700, 0};
+    Velocity vel1 = {650, 0};
     Size size1 = {50, 50};
     Mass mass1 = {1.0f};
     Friction friction1 = {0.05f};
@@ -48,7 +50,7 @@ int main(int argc, char* argv[]) {
 
     Entity entity2 = entityManager.createEntity();
     Position pos2 = {500, 600};
-    Velocity vel2 = {-700, 0};
+    Velocity vel2 = {-650, 0};
     Size size2 = {50, 50};
     Mass mass2 = {1.0f};
     Friction friction2 = {0.05f};
@@ -75,7 +77,7 @@ int main(int argc, char* argv[]) {
         // Update physics and handle collisions
         physicsSystem.update(deltaTime, collisionSystem);
 
-        // Render entities
+        // Render entities and debug info
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
@@ -83,9 +85,18 @@ int main(int argc, char* argv[]) {
         SDL_Rect rect1 = { static_cast<int>(pos1.x), static_cast<int>(pos1.y), 50, 50 };
         SDL_RenderFillRect(renderer, &rect1);
 
-        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255); // Entity2
+        SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Entity2
         SDL_Rect rect2 = { static_cast<int>(pos2.x), static_cast<int>(pos2.y), 50, 50 };
         SDL_RenderFillRect(renderer, &rect2);
+
+        // Debug rendering
+        debugSystem.drawCollisionBox(&pos1, &size1);
+        debugSystem.drawVelocityVector(&pos1, &vel1);
+        debugSystem.drawForceVector(&pos1, &force1);
+
+        debugSystem.drawCollisionBox(&pos2, &size2);
+        debugSystem.drawVelocityVector(&pos2, &vel2);
+        debugSystem.drawForceVector(&pos2, &force2);
 
         SDL_RenderPresent(renderer);
     }
