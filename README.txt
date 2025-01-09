@@ -5,6 +5,12 @@ The **Orpheus Engine** is a custom 2D game engine designed and implemented from 
 
 ---
 
+Author: Lachezar Nikolov
+GitHub: LNikolov01
+Email: lnlachezarnikolov@gmail.com
+
+---
+
 # Features
 
 ## 1. Entity-Component System (ECS)
