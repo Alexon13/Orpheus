@@ -2,6 +2,7 @@
 #include "EntityManager.h"
 #include "Components.h"
 #include "MovementSystem.h"
+#include "RenderingSystem.h"
 
 int main(int argc, char* argv[]) {
     // Initialize SDL
@@ -32,23 +33,23 @@ int main(int argc, char* argv[]) {
 
     // ECS setup
     EntityManager entityManager;
+    ComponentManager componentManager;
     MovementSystem movementSystem;
+    RenderingSystem renderingSystem(renderer);
 
     // Create entities
     Entity entity1 = entityManager.createEntity();
     Position pos1 = {100, 100};
-    Velocity vel1 = {50, 0}; // Moving right
-    movementSystem.addEntity(entity1, &pos1, &vel1);
+    Velocity vel1 = {50, 0};
+    componentManager.addComponent(entity1, pos1);
+    componentManager.addComponent(entity1, vel1);
+    movementSystem.addEntity(entity1, componentManager.getComponent<Position>(entity1), componentManager.getComponent<Velocity>(entity1));
+    renderingSystem.addEntity(entity1, componentManager.getComponent<Position>(entity1));
 
-    Entity entity2 = entityManager.createEntity();
-    Position pos2 = {200, 200};
-    Velocity vel2 = {0, 50}; // Moving down
-    movementSystem.addEntity(entity2, &pos2, &vel2);
-
-    // Game loop
+    // Main loop
     bool isRunning = true;
     SDL_Event event;
-    float deltaTime = 0.016f; // ~60 FPS
+    float deltaTime = 0.016f;
 
     while (isRunning) {
         while (SDL_PollEvent(&event)) {
@@ -63,16 +64,7 @@ int main(int argc, char* argv[]) {
         // Render
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
-
-        // Render entities as rectangles
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-        SDL_Rect rect1 = { static_cast<int>(pos1.x), static_cast<int>(pos1.y), 50, 50 };
-        SDL_RenderFillRect(renderer, &rect1);
-
-        SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-        SDL_Rect rect2 = { static_cast<int>(pos2.x), static_cast<int>(pos2.y), 50, 50 };
-        SDL_RenderFillRect(renderer, &rect2);
-
+        renderingSystem.render();
         SDL_RenderPresent(renderer);
     }
 
