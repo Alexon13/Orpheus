@@ -2,19 +2,17 @@
 #include "EntityManager.h"
 #include "Components.h"
 #include "PhysicsSystem.h"
-#include "CollisionSystem.h"
 #include "DebugSystem.h"
 #include <iostream>
 
 int main(int argc, char* argv[]) {
-    // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
         return 1;
     }
 
     SDL_Window* window = SDL_CreateWindow(
-        "Orpheus Engine - Physics Debugging",
+        "Orpheus Engine - DebugSystem Integration",
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         800, 600, SDL_WINDOW_SHOWN
     );
@@ -35,34 +33,30 @@ int main(int argc, char* argv[]) {
 
     // ECS setup
     EntityManager entityManager;
-    PhysicsSystem physicsSystem;
-    CollisionSystem collisionSystem;
-    DebugSystem debugSystem(renderer);
+    ComponentManager componentManager;
+    PhysicsSystem physicsSystem(entityManager, componentManager);
+    DebugSystem debugSystem(renderer, entityManager, componentManager);
 
-    // Create entities
+    // Create Entity 1
     Entity entity1 = entityManager.createEntity();
-    Position pos1 = {100, 600};
-    Velocity vel1 = {650, 0};
-    Size size1 = {50, 50};
-    Mass mass1 = {1.0f};
-    Friction friction1 = {0.05f};
-    Force force1 = {0.0f, 0.0f}; // No initial force
+    componentManager.addComponent(entity1, Position{100, 100});
+    componentManager.addComponent(entity1, Velocity{0, 0});
+    componentManager.addComponent(entity1, Size{50, 50});
+    componentManager.addComponent(entity1, Mass{1.0f});
+    componentManager.addComponent(entity1, Friction{0});
+    componentManager.addComponent(entity1, Force{0.0f, 0.0f});
+    physicsSystem.addEntity(entity1);
 
+    // Create Entity 2
     Entity entity2 = entityManager.createEntity();
-    Position pos2 = {500, 600};
-    Velocity vel2 = {-650, 0};
-    Size size2 = {50, 50};
-    Mass mass2 = {1.0f};
-    Friction friction2 = {0.05f};
-    Force force2 = {0.0f, 0.0f};
+    componentManager.addComponent(entity2, Position{500, 100});
+    componentManager.addComponent(entity2, Velocity{0, 0});
+    componentManager.addComponent(entity2, Size{50, 50});
+    componentManager.addComponent(entity2, Mass{1.0f});
+    componentManager.addComponent(entity2, Friction{0});
+    componentManager.addComponent(entity2, Force{0.0f, 0.0f});
+    physicsSystem.addEntity(entity2);
 
-    physicsSystem.addEntity(entity1, &pos1, &vel1, nullptr, &mass1, &friction1, &force1);
-    physicsSystem.addEntity(entity2, &pos2, &vel2, nullptr, &mass2, &friction2, &force2);
-
-    collisionSystem.addEntity(entity1, &pos1, &size1);
-    collisionSystem.addEntity(entity2, &pos2, &size2);
-
-    // Main loop
     bool isRunning = true;
     SDL_Event event;
     float deltaTime = 0.016f; // ~60 FPS
@@ -72,38 +66,51 @@ int main(int argc, char* argv[]) {
             if (event.type == SDL_QUIT) {
                 isRunning = false;
             } else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_d) {
-                debugSystem.toggleDebug(); // Toggle debug view with 'D' key
+                debugSystem.toggleDebug(); // Toggle debug mode with 'D' key
             }
         }
 
-        // Update physics and handle collisions
-        physicsSystem.update(deltaTime, collisionSystem);
+        // Update physics
+        physicsSystem.update(deltaTime);
 
-        // Render entities and debug info
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        // Render loop
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black background
         SDL_RenderClear(renderer);
 
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Entity1
-        SDL_Rect rect1 = { static_cast<int>(pos1.x), static_cast<int>(pos1.y), 50, 50 };
-        SDL_RenderFillRect(renderer, &rect1);
+        // Render entity1
+        Position* pos1 = componentManager.getComponent<Position>(entity1);
+        Size* size1 = componentManager.getComponent<Size>(entity1);
+        if (pos1 && size1) {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red for entity1
+            SDL_Rect rect1 = {
+                static_cast<int>(pos1->x),
+                static_cast<int>(pos1->y),
+                static_cast<int>(size1->width),
+                static_cast<int>(size1->height)
+            };
+            SDL_RenderFillRect(renderer, &rect1);
+        }
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Entity2
-        SDL_Rect rect2 = { static_cast<int>(pos2.x), static_cast<int>(pos2.y), 50, 50 };
-        SDL_RenderFillRect(renderer, &rect2);
+        // Render entity2
+        Position* pos2 = componentManager.getComponent<Position>(entity2);
+        Size* size2 = componentManager.getComponent<Size>(entity2);
+        if (pos2 && size2) {
+            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Blue for entity2
+            SDL_Rect rect2 = {
+                static_cast<int>(pos2->x),
+                static_cast<int>(pos2->y),
+                static_cast<int>(size2->width),
+                static_cast<int>(size2->height)
+            };
+            SDL_RenderFillRect(renderer, &rect2);
+        }
 
-        // Debug rendering
-        debugSystem.drawCollisionBox(&pos1, &size1);
-        debugSystem.drawVelocityVector(&pos1, &vel1);
-        debugSystem.drawForceVector(&pos1, &force1);
-
-        debugSystem.drawCollisionBox(&pos2, &size2);
-        debugSystem.drawVelocityVector(&pos2, &vel2);
-        debugSystem.drawForceVector(&pos2, &force2);
+        // Render debug info
+        debugSystem.render();
 
         SDL_RenderPresent(renderer);
     }
 
-    // Cleanup
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
