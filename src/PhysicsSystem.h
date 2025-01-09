@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include "Components.h"
+#include "CollisionSystem.h"
 
 class PhysicsSystem {
 private:
@@ -22,7 +23,7 @@ public:
         if (force) forces[entity] = force;
     }
 
-    void update(float deltaTime) {
+    void update(float deltaTime, CollisionSystem& collisionSystem) {
         for (const auto& [entity, pos] : positions) {
             Velocity* vel = velocities[entity];
             Acceleration* acc = accelerations.count(entity) ? accelerations[entity] : nullptr;
@@ -56,11 +57,43 @@ public:
             pos->x += vel->dx * deltaTime;
             pos->y += vel->dy * deltaTime;
 
-            // Prevent falling through ground (simple collision with ground)
-            if (pos->y + 50 > 600) { // Assuming object height = 50
-                pos->y = 600 - 50;
-                vel->dy = 0; // Stop vertical movement
+            // Boundary checks
+            if (pos->x < 0) { // Left wall
+                pos->x = 0;
+                vel->dx = 0;
             }
+            if (pos->x + 50 > 800) { // Right wall (assuming width = 50)
+                pos->x = 800 - 50;
+                vel->dx = 0;
+            }
+            if (pos->y < 0) { // Ceiling
+                pos->y = 0;
+                vel->dy = 0;
+            }
+            if (pos->y + 50 > 600) { // Ground (assuming height = 50)
+                pos->y = 600 - 50;
+                vel->dy = 0;
+            }
+        }
+
+        // Check for collisions and handle response
+        collisionSystem.checkCollisions([this](Entity a, Entity b) {
+            handleCollision(a, b);
+        });
+    }
+
+private:
+    void handleCollision(Entity a, Entity b) {
+        Velocity* velA = velocities[a];
+        Velocity* velB = velocities[b];
+
+        // Simple bounce response
+        if (velA && velB) {
+            velA->dx = -velA->dx;
+            velA->dy = -velA->dy;
+
+            velB->dx = -velB->dx;
+            velB->dy = -velB->dy;
         }
     }
 };
