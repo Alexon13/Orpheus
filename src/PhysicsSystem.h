@@ -51,7 +51,9 @@ public:
 
                 pos->x += vel->dx * deltaTime;
                 pos->y += vel->dy * deltaTime;
-
+                
+                // Logic for collisions with the walls
+                // TODO: Simulate energy loss!
                 if (pos->x < 0) {
                     pos->x = 0;
                     vel->dx = -vel->dx;

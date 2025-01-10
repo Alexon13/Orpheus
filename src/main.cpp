@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
     // Create Entity 1 for testing purposes
     Entity entity1 = entityManager.createEntity();
     componentManager.addComponent(entity1, Position{100, 100});
-    componentManager.addComponent(entity1, Velocity{50, 0}); //Initial velocity for testing purposes
+    componentManager.addComponent(entity1, Velocity{100, 0}); //Initial velocity for testing purposes
     componentManager.addComponent(entity1, Size{50, 50});
     componentManager.addComponent(entity1, Mass{1.0f});
     componentManager.addComponent(entity1, Friction{0});
@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
     // Create Entity 2 for testing purposes
     Entity entity2 = entityManager.createEntity();
     componentManager.addComponent(entity2, Position{500, 100});
-    componentManager.addComponent(entity2, Velocity{0, 0});
+    componentManager.addComponent(entity2, Velocity{-50, 0});
     componentManager.addComponent(entity2, Size{50, 50});
     componentManager.addComponent(entity2, Mass{1.0f});
     componentManager.addComponent(entity2, Friction{0});
@@ -59,7 +59,7 @@ int main(int argc, char* argv[]) {
 
     bool isRunning = true;
     SDL_Event event;
-    float deltaTime = 0.016f; // ~60 FPS
+    float deltaTime = 0.032f; // ~60 FPS
 
     auto onCollision = [](Entity a, Entity b) {
         std::cout << "Collision detected between Entity " << a << " and Entity " << b << std::endl;
