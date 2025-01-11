@@ -53,6 +53,7 @@ int main(int argc, char* argv[]) {
     Entity entity1 = spawningSystem.spawnEntity(0, 100, 0, 0, 50, 50, 1.0f);
     Entity entity2 = spawningSystem.spawnEntity(100, 100, 0, 0, 50, 50, 1.0f);
     Entity entity3 = spawningSystem.spawnEntity(200, 100, 0, 0, 50, 50, 1.0f);
+    Entity entity4 = spawningSystem.spawnEntity(500, 100, 0, 0, 50, 50, 1.0f);
 
     // Set one of the entities as controllable (Can't have more than one at the moment!)
     inputSystem.setControllableEntity(entity1);
