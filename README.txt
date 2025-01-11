@@ -45,7 +45,7 @@ The *DebugSystem* provides visual tools for inspecting the state of the engine:
 
 - Renders collision boxes around entities.
 - Displays velocity and force vectors.
-- Can be toggled on and off using the `D` key.
+- Can be toggled on and off using the `X` key.
 
 ## 5. Rendering System
 The *RenderingSystem* handles visual representation:
@@ -83,7 +83,7 @@ The *RenderingSystem* handles visual representation:
 
 # Controls
 
-- *Toggle Debug Mode*: Press `D` to enable or disable visual debugging.
+- *Toggle Debug Mode*: Press `X` to enable or disable visual debugging.
 
 ---
 
