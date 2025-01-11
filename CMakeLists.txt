@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(OrpheusEngine)
+project(Orpheus_Engine)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -11,7 +11,7 @@ find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
 # Add source files
-add_executable(OrpheusEngine
+add_executable(Orpheus_Engine
     src/main.cpp
     src/EntityManager.cpp
     src/PhysicsSystem.cpp
@@ -22,7 +22,7 @@ add_executable(OrpheusEngine
 )
 
 # Link SDL2 libraries
-target_link_libraries(OrpheusEngine ${SDL2_LIBRARIES})
+target_link_libraries(Orpheus_Engine ${SDL2_LIBRARIES})
 
 # Specify include directories
-target_include_directories(OrpheusEngine PRIVATE include/)
+target_include_directories(Orpheus_Engine PRIVATE include/)
