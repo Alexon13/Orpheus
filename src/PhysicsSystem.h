@@ -1,5 +1,6 @@
 #pragma once
 #include "EntityManager.h"
+#include "ComponentManager.h"
 #include "Components.h"
 #include "CollisionSystem.h"
 #include <unordered_set>

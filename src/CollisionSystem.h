@@ -3,6 +3,7 @@
 #include <functional>
 #include "Components.h"
 #include "EntityManager.h"
+#include "ComponentManager.h"
 
 class CollisionSystem {
 private:

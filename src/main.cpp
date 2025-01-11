@@ -1,8 +1,10 @@
 #include <SDL2/SDL.h>
 #include "EntityManager.h"
+#include "ComponentManager.h"
 #include "Components.h"
 #include "PhysicsSystem.h"
 #include "DebugSystem.h"
+#include "SpawningSystem.h"
 #include <iostream>
 
 #define WINDOW_WIDTH 800
@@ -39,26 +41,11 @@ int main(int argc, char* argv[]) {
     ComponentManager componentManager;
     PhysicsSystem physicsSystem(entityManager, componentManager);
     DebugSystem debugSystem(renderer, entityManager, componentManager);
+    SpawningSystem spawningSystem(entityManager, componentManager, physicsSystem);
 
-    // Create Entity 1 for testing purposes (TODO: Implement SpawningSystem)
-    Entity entity1 = entityManager.createEntity();
-    componentManager.addComponent(entity1, Position{100, 100});
-    componentManager.addComponent(entity1, Velocity{100, 0}); //Initial velocity for testing purposes
-    componentManager.addComponent(entity1, Size{50, 50});
-    componentManager.addComponent(entity1, Mass{1.0f});
-    componentManager.addComponent(entity1, Friction{0});
-    componentManager.addComponent(entity1, Force{0.0f, 0.0f});
-    physicsSystem.addEntity(entity1);
-
-    // Create Entity 2 for testing purposes (TODO: Implement SpawningSystem)
-    Entity entity2 = entityManager.createEntity();
-    componentManager.addComponent(entity2, Position{500, 100});
-    componentManager.addComponent(entity2, Velocity{-50, 0});
-    componentManager.addComponent(entity2, Size{50, 50});
-    componentManager.addComponent(entity2, Mass{1.0f});
-    componentManager.addComponent(entity2, Friction{0});
-    componentManager.addComponent(entity2, Force{0.0f, 0.0f});
-    physicsSystem.addEntity(entity2);
+    // Spawn two entities for testing purposes
+    Entity entity1 = spawningSystem.spawnEntity(100, 100, 100, 0, 50, 50, 1.0f);
+    Entity entity2 = spawningSystem.spawnEntity(500, 100, -100, 0, 50, 50, 1.0f);
 
     bool isRunning = true;
     SDL_Event event;
@@ -85,11 +72,11 @@ int main(int argc, char* argv[]) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black background
         SDL_RenderClear(renderer);
 
-        // Render entity1 for testing (TODO: implement with render system later)
+        // Render entity1 for testing (TODO: implement with RenderingSystem later)
         Position* pos1 = componentManager.getComponent<Position>(entity1);
         Size* size1 = componentManager.getComponent<Size>(entity1);
         if (pos1 && size1) {
-            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red for entity1
+            SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255); // Magenta for entity1
             SDL_Rect rect1 = {
                 static_cast<int>(pos1->x),
                 static_cast<int>(pos1->y),
@@ -99,7 +86,7 @@ int main(int argc, char* argv[]) {
             SDL_RenderFillRect(renderer, &rect1);
         }
 
-        // Render entity2 for testing (TODO: implement with render system later)
+        // Render entity2 for testing (TODO: implement with RenderingSystem later)
         Position* pos2 = componentManager.getComponent<Position>(entity2);
         Size* size2 = componentManager.getComponent<Size>(entity2);
         if (pos2 && size2) {

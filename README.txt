@@ -31,7 +31,7 @@ The *PhysicsSystem* updates the positions and velocities of entities based on fo
 - Force application.
 - Friction effects.
 - Boundary constraints to prevent entities from leaving the game area.
-- Collision detection using the integrated **CollisionSystem**.
+- Collision detection using the integrated *CollisionSystem*.
 - Collision response with realistic physics (elastic collision and friction-based energy loss).
 
 ## 3. Collision System
@@ -53,6 +53,9 @@ The *RenderingSystem* handles visual representation:
 - Renders entities with their assigned colors or textures.
 - Supports explicit rendering of specific entities for precise control.
 
+## 6. Spawning System
+The *SpawningSystem* handles spawning of entities and their initial components.
+
 ---
 
 # File Structure
@@ -65,6 +68,7 @@ The *RenderingSystem* handles visual representation:
 - *CollisionSystem.h*: Detects and handles collisions between entities.
 - *DebugSystem.h*: Renders debug information such as collision boxes and vectors.
 - *RenderingSystem.h*: Manages the rendering of entities.
+- *SpawningSystem.h*: Manages the spawning of entities with different components.
 
 ---
 
@@ -105,7 +109,7 @@ The *RenderingSystem* handles visual representation:
 # Future Plans
 
 - *Audio System*: Add support for sound effects and background music.
-- *Spawning System*: Implement an entity spawning system with custom components.
+- *Movement System*: Implement an movement system with user input.
 - *Animation System*: Implement sprite-based animations.
 - *Scripting System*: Introduce scripting for customizable entity behavior.
 - *Advanced Physics*: Incorporate rotational physics and torque.
@@ -119,5 +123,4 @@ Contributions are welcome! Feel free to fork the repository and submit pull requ
 ---
 
 # License
-This project is licensed under the Apache License.
-
+The Orpheus Engine is licensed under the Apache License.
