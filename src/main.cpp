@@ -5,6 +5,9 @@
 #include "DebugSystem.h"
 #include <iostream>
 
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
+
 int main(int argc, char* argv[]) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
@@ -14,7 +17,7 @@ int main(int argc, char* argv[]) {
     SDL_Window* window = SDL_CreateWindow(
         "Orpheus Engine - Work in Progress",
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-        800, 600, SDL_WINDOW_SHOWN
+        WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN
     );
 
     if (!window) {
@@ -37,7 +40,7 @@ int main(int argc, char* argv[]) {
     PhysicsSystem physicsSystem(entityManager, componentManager);
     DebugSystem debugSystem(renderer, entityManager, componentManager);
 
-    // Create Entity 1 for testing purposes
+    // Create Entity 1 for testing purposes (TODO: Implement SpawningSystem)
     Entity entity1 = entityManager.createEntity();
     componentManager.addComponent(entity1, Position{100, 100});
     componentManager.addComponent(entity1, Velocity{100, 0}); //Initial velocity for testing purposes
@@ -47,7 +50,7 @@ int main(int argc, char* argv[]) {
     componentManager.addComponent(entity1, Force{0.0f, 0.0f});
     physicsSystem.addEntity(entity1);
 
-    // Create Entity 2 for testing purposes
+    // Create Entity 2 for testing purposes (TODO: Implement SpawningSystem)
     Entity entity2 = entityManager.createEntity();
     componentManager.addComponent(entity2, Position{500, 100});
     componentManager.addComponent(entity2, Velocity{-50, 0});
@@ -70,8 +73,8 @@ int main(int argc, char* argv[]) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 isRunning = false;
-            } else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_d) {
-                debugSystem.toggleDebug(); // Toggle debug mode with 'D' key
+            } else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_x) {
+                debugSystem.toggleDebug(); // Toggle debug mode with 'X' key
             }
         }
 

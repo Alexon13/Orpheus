@@ -24,10 +24,8 @@ public:
     // Render debug information for all entities
     void render() {
         if (!debugEnabled) {
-            std::cout << "Debug mode is disabled." << std::endl;
             return;
         }
-        std::cout << "Debug mode is enabled." << std::endl;
         for (Entity entity : entityManager.getEntities()) {
             Position* pos = componentManager.getComponent<Position>(entity);
             Size* size = componentManager.getComponent<Size>(entity);
@@ -38,12 +36,12 @@ public:
                 drawCollisionBox(pos, size); // Draw collision box
             }
 
-            if (pos && vel) {
-                drawVelocityVector(pos, vel); // Draw velocity vector
+            if (pos && vel && size) {
+                drawVelocityVector(pos, vel, size); // Draw velocity vector
             }
 
-            if (pos && force) {
-                drawForceVector(pos, force); // Draw force vector
+            if (pos && force && size) {
+                drawForceVector(pos, force, size); // Draw force vector
             }
         }
     }
@@ -61,9 +59,9 @@ public:
     }
 
     // Draw the velocity vector
-    void drawVelocityVector(Position* pos, Velocity* vel) {
-        int startX = static_cast<int>(pos->x + 25); // Assuming center for a 50x50 size entity
-        int startY = static_cast<int>(pos->y + 25);
+    void drawVelocityVector(Position* pos, Velocity* vel, Size* size) {
+        int startX = static_cast<int>(pos->x + (size->width / 2)); // Assuming center of entity
+        int startY = static_cast<int>(pos->y + (size->height / 2));
         int endX = startX + static_cast<int>(vel->dx * 7); // Scale for better visualization
         int endY = startY + static_cast<int>(vel->dy * 7);
 
@@ -72,9 +70,9 @@ public:
     }
 
     // Draw the force vector
-    void drawForceVector(Position* pos, Force* force) {
-        int startX = static_cast<int>(pos->x + 25); // Assuming center for a 50x50 size entity
-        int startY = static_cast<int>(pos->y + 25);
+    void drawForceVector(Position* pos, Force* force, Size* size) {
+        int startX = static_cast<int>(pos->x + (size->width / 2)); // Assuming center of entity
+        int startY = static_cast<int>(pos->y + (size-> height / 2));
         int endX = startX + static_cast<int>(force->fx * 3); // Scale for better visualization
         int endY = startY + static_cast<int>(force->fy * 3);
 

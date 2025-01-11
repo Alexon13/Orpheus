@@ -35,8 +35,10 @@ public:
             Mass* mass = componentManager.getComponent<Mass>(entity);
             Friction* friction = componentManager.getComponent<Friction>(entity);
             Force* force = componentManager.getComponent<Force>(entity);
+            Size* size = componentManager.getComponent<Size>(entity);
 
-            if (pos && vel && mass) {
+            // Simulate Gravity
+            if (pos && vel && mass && size) {
                 vel->dy += gravity * deltaTime;
 
                 if (force) {
@@ -53,22 +55,23 @@ public:
                 pos->y += vel->dy * deltaTime;
                 
                 // Logic for collisions with the walls
-                // TODO: Simulate energy loss!
-                if (pos->x < 0) {
+                const float wallFriction = 0.8f; // Energy loss for wall collisions (20%)
+
+                if (pos->x < 0) { // Left wall
                     pos->x = 0;
-                    vel->dx = -vel->dx;
+                    vel->dx = -vel->dx * wallFriction;
                 }
-                if (pos->x + 50 > 800) {
-                    pos->x = 800 - 50;
-                    vel->dx = -vel->dx;
+                if (pos->x + size->width > 800) { // Right wall
+                    pos->x = 800 - size->width;
+                    vel->dx = -vel->dx * wallFriction;
                 }
-                if (pos->y < 0) {
+                if (pos->y < 0) { // Ceiling
                     pos->y = 0;
-                    vel->dy = -vel->dy;
+                    vel->dy = -vel->dy * wallFriction;
                 }
-                if (pos->y + 50 > 600) {
-                    pos->y = 600 - 50;
-                    vel->dy = -vel->dy;
+                if (pos->y + size->height > 600) { // Floor
+                    pos->y = 600 - size->height;
+                    vel->dy = -vel->dy * wallFriction;
                 }
             }
         }
