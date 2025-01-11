@@ -4,6 +4,7 @@
 #include "ComponentManager.h"
 #include "PhysicsSystem.h"
 #include "SpawningSystem.h"
+#include "InputSystem.h"
 #include "DebugSystem.h"
 #include "RenderingSystem.h"
 #include <iostream>
@@ -42,19 +43,22 @@ int main(int argc, char* argv[]) {
     EntityManager entityManager;
     ComponentManager componentManager;
     PhysicsSystem physicsSystem(entityManager, componentManager);
-    DebugSystem debugSystem(renderer, entityManager, componentManager);
     SpawningSystem spawningSystem(entityManager, componentManager, physicsSystem);
+    InputSystem inputSystem(entityManager, componentManager);
+    DebugSystem debugSystem(renderer, entityManager, componentManager);
     RenderingSystem renderingSystem(renderer, entityManager, componentManager);
 
-    // Spawn several entities for testing purposes
+    // Spawn several entities (including controllable) for testing purposes
     // (x, y, dx, dy, width, height, mass)
     Entity entity1 = spawningSystem.spawnEntity(0, 100, 80, 0, 50, 50, 1.0f);
     Entity entity2 = spawningSystem.spawnEntity(100, 100, 80, 0, 50, 50, 1.0f);
-    Entity entity3 = spawningSystem.spawnEntity(250, 100, 80, 0, 50, 50, 1.0f);
-    Entity entity4 = spawningSystem.spawnEntity(400, 100, -80, 0, 50, 50, 1.0f);
-    Entity entity5 = spawningSystem.spawnEntity(600, 100, -80, 0, 50, 50, 1.0f);
-    Entity entity6 = spawningSystem.spawnEntity(700, 100, 80, 0, 50, 50, 1.0f);
+    Entity entity3 = spawningSystem.spawnEntity(250, 100, -80, 0, 50, 50, 1.0f);
+    Entity entity4 = spawningSystem.spawnEntity(700, 100, -80, 0, 50, 50, 1.0f);
 
+    // Set one of the entities as controllable (Can't have more than one at the moment!)
+    inputSystem.setControllableEntity(entity4);
+
+    // Program flow parameters
     bool isRunning = true;
     SDL_Event event;
     float deltaTime = FRAME_RATE;
@@ -69,9 +73,14 @@ int main(int argc, char* argv[]) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 isRunning = false;
-            } else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_x) {
-                debugSystem.toggleDebug(); // Toggle debug mode with 'X' key
+            } 
+            else {
+                // Pass the event to the InputSystem and handle input
+                inputSystem.handleInput(deltaTime, event);
             }
+            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_x) {
+                debugSystem.toggleDebug(); // Toggle debug mode with 'X' key
+            } 
         }
 
         // Update physics each frame
@@ -87,6 +96,7 @@ int main(int argc, char* argv[]) {
         // Render debug system info
         debugSystem.render();
 
+        // Present the frame
         SDL_RenderPresent(renderer);
     }
 

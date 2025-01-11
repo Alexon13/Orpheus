@@ -58,6 +58,11 @@ The *SpawningSystem* handles spawning of entities:
 
 - Controls the spawning of entities and the assignment of their initial components.
 
+## 7. Input System
+The *InputSystem* handles the user input:
+
+- Control the input from the player and allows manual movement of entities.
+
 ---
 
 # File Structure
@@ -71,6 +76,7 @@ The *SpawningSystem* handles spawning of entities:
 - *DebugSystem.h*: Renders debug information such as collision boxes and vectors.
 - *RenderingSystem.h*: Manages the rendering of entities.
 - *SpawningSystem.h*: Manages the spawning of entities with different components.
+- *InputSystem.h* : Manages input from the player.
 
 ---
 
@@ -95,15 +101,17 @@ The *SpawningSystem* handles spawning of entities:
 
 # How to Run
 
-1. Clone the repository:
+1. Ensure SDL2 lib is installed
+
+2. Clone the repository:
    git clone <repository-url>
    cd Orpheus
 
-2. Build the project using CMake:
+3. Build the project using CMake:
    cmake -S . -B build
    cmake --build build
 
-3. Run the executable:
+4. Run the executable:
    ./build/OrpheusEngine
 
 ---
@@ -111,7 +119,7 @@ The *SpawningSystem* handles spawning of entities:
 # Future Plans
 
 - *Audio System*: Add support for sound effects and background music.
-- *Movement System*: Implement an movement system with user input.
+- *Particle System*: Implement a particle system for specific events (like explosions).
 - *Animation System*: Implement sprite-based animations.
 - *Scripting System*: Introduce scripting for customizable entity behavior.
 - *Advanced Physics*: Incorporate rotational physics and torque.
