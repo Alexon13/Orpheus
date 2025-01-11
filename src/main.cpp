@@ -1,14 +1,16 @@
 #include <SDL2/SDL.h>
+#include "Components.h"
 #include "EntityManager.h"
 #include "ComponentManager.h"
-#include "Components.h"
 #include "PhysicsSystem.h"
-#include "DebugSystem.h"
 #include "SpawningSystem.h"
+#include "DebugSystem.h"
+#include "RenderingSystem.h"
 #include <iostream>
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
+#define FRAME_RATE 0.032f // ~120 FPS
 
 int main(int argc, char* argv[]) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -42,15 +44,22 @@ int main(int argc, char* argv[]) {
     PhysicsSystem physicsSystem(entityManager, componentManager);
     DebugSystem debugSystem(renderer, entityManager, componentManager);
     SpawningSystem spawningSystem(entityManager, componentManager, physicsSystem);
+    RenderingSystem renderingSystem(renderer, entityManager, componentManager);
 
-    // Spawn two entities for testing purposes
-    Entity entity1 = spawningSystem.spawnEntity(100, 100, 100, 0, 50, 50, 1.0f);
-    Entity entity2 = spawningSystem.spawnEntity(500, 100, -100, 0, 50, 50, 1.0f);
+    // Spawn several entities for testing purposes
+    // (x, y, dx, dy, width, height, mass)
+    Entity entity1 = spawningSystem.spawnEntity(0, 100, 80, 0, 50, 50, 1.0f);
+    Entity entity2 = spawningSystem.spawnEntity(100, 100, 80, 0, 50, 50, 1.0f);
+    Entity entity3 = spawningSystem.spawnEntity(250, 100, 80, 0, 50, 50, 1.0f);
+    Entity entity4 = spawningSystem.spawnEntity(400, 100, -80, 0, 50, 50, 1.0f);
+    Entity entity5 = spawningSystem.spawnEntity(600, 100, -80, 0, 50, 50, 1.0f);
+    Entity entity6 = spawningSystem.spawnEntity(700, 100, 80, 0, 50, 50, 1.0f);
 
     bool isRunning = true;
     SDL_Event event;
-    float deltaTime = 0.032f; // ~60 FPS
+    float deltaTime = FRAME_RATE;
 
+    // Check for entity collisions
     auto onCollision = [](Entity a, Entity b) {
         std::cout << "Collision detected between Entity " << a << " and Entity " << b << std::endl;
     };
@@ -72,33 +81,8 @@ int main(int argc, char* argv[]) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black background
         SDL_RenderClear(renderer);
 
-        // Render entity1 for testing (TODO: implement with RenderingSystem later)
-        Position* pos1 = componentManager.getComponent<Position>(entity1);
-        Size* size1 = componentManager.getComponent<Size>(entity1);
-        if (pos1 && size1) {
-            SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255); // Magenta for entity1
-            SDL_Rect rect1 = {
-                static_cast<int>(pos1->x),
-                static_cast<int>(pos1->y),
-                static_cast<int>(size1->width),
-                static_cast<int>(size1->height)
-            };
-            SDL_RenderFillRect(renderer, &rect1);
-        }
-
-        // Render entity2 for testing (TODO: implement with RenderingSystem later)
-        Position* pos2 = componentManager.getComponent<Position>(entity2);
-        Size* size2 = componentManager.getComponent<Size>(entity2);
-        if (pos2 && size2) {
-            SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255); // Yellow for entity2
-            SDL_Rect rect2 = {
-                static_cast<int>(pos2->x),
-                static_cast<int>(pos2->y),
-                static_cast<int>(size2->width),
-                static_cast<int>(size2->height)
-            };
-            SDL_RenderFillRect(renderer, &rect2);
-        }
+        // Render all entities using the Render System
+        renderingSystem.render();
 
         // Render debug system info
         debugSystem.render();

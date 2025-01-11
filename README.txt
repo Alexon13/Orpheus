@@ -51,10 +51,12 @@ The *DebugSystem* provides visual tools for inspecting the state of the engine:
 The *RenderingSystem* handles visual representation:
 
 - Renders entities with their assigned colors or textures.
-- Supports explicit rendering of specific entities for precise control.
+- Supports explicit rendering of specific entities and their components for precise control.
 
 ## 6. Spawning System
-The *SpawningSystem* handles spawning of entities and their initial components.
+The *SpawningSystem* handles spawning of entities:
+
+- Controls the spawning of entities and the assignment of their initial components.
 
 ---
 
