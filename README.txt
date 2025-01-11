@@ -68,15 +68,15 @@ The *InputSystem* handles the user input:
 # File Structure
 
 - *main.cpp*: Entry point of the application; sets up the ECS and game loop.
+- *Components.h*: Defines all the component types (e.g., `Position`, `Velocity`, etc.).
 - *EntityManager.h*: Manages entities and their lifecycle.
 - *ComponentManager.h*: Handles component storage and retrieval.
-- *Components.h*: Defines all the component types (e.g., `Position`, `Velocity`, etc.).
 - *PhysicsSystem.h*: Updates entity states based on physics calculations.
 - *CollisionSystem.h*: Detects and handles collisions between entities.
-- *DebugSystem.h*: Renders debug information such as collision boxes and vectors.
-- *RenderingSystem.h*: Manages the rendering of entities.
 - *SpawningSystem.h*: Manages the spawning of entities with different components.
 - *InputSystem.h* : Manages input from the player.
+- *DebugSystem.h*: Renders debug information such as collision boxes and vectors.
+- *RenderingSystem.h*: Manages the rendering of entities.
 
 ---
 
