@@ -56,7 +56,7 @@ public:
                 pos->y += vel->dy * deltaTime;
 
                 // Logic for dragging on the floor
-                const float floorFriction = 0.001f; // Energy loss due to dragging on the floor (1%)
+                const float floorFriction = 0.01f; // Energy loss due to dragging on the floor (1%)
 
                 if (pos->y + size->height > 600) {
                     vel->dx *= 1 - floorFriction;

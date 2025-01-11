@@ -11,7 +11,7 @@
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
-#define FRAME_RATE 0.008f // ~120 FPS
+#define FRAME_RATE 0.032f // ~120 FPS
 
 int main(int argc, char* argv[]) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
