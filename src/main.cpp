@@ -11,7 +11,7 @@
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
-#define FRAME_RATE 0.032f // ~120 FPS
+#define FRAME_RATE 0.008f // ~120 FPS
 
 int main(int argc, char* argv[]) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -50,13 +50,12 @@ int main(int argc, char* argv[]) {
 
     // Spawn several entities (including controllable) for testing purposes
     // (x, y, dx, dy, width, height, mass)
-    Entity entity1 = spawningSystem.spawnEntity(0, 100, 80, 0, 50, 50, 1.0f);
-    Entity entity2 = spawningSystem.spawnEntity(100, 100, 80, 0, 50, 50, 1.0f);
-    Entity entity3 = spawningSystem.spawnEntity(250, 100, -80, 0, 50, 50, 1.0f);
-    Entity entity4 = spawningSystem.spawnEntity(700, 100, -80, 0, 50, 50, 1.0f);
+    Entity entity1 = spawningSystem.spawnEntity(0, 100, 0, 0, 50, 50, 1.0f);
+    Entity entity2 = spawningSystem.spawnEntity(100, 100, 0, 0, 50, 50, 1.0f);
+    Entity entity3 = spawningSystem.spawnEntity(200, 100, 0, 0, 50, 50, 1.0f);
 
     // Set one of the entities as controllable (Can't have more than one at the moment!)
-    inputSystem.setControllableEntity(entity4);
+    inputSystem.setControllableEntity(entity1);
 
     // Program flow parameters
     bool isRunning = true;

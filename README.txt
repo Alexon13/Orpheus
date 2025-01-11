@@ -118,6 +118,7 @@ The *InputSystem* handles the user input:
 
 # Future Plans
 
+- *Scene System*: Implement a scene system that manages active scenes and transitions between them.
 - *Audio System*: Add support for sound effects and background music.
 - *Particle System*: Implement a particle system for specific events (like explosions).
 - *Animation System*: Implement sprite-based animations.
