@@ -96,6 +96,9 @@ The *InputSystem* handles the user input:
 # Controls
 
 - *Toggle Debug Mode*: Press `X` to enable or disable visual debugging.
+- *Move Left*: Press `A` to move left.
+- *Move Right*: Press `D` to move right.
+- *Jump*: Press `SPACE` to jump. (Must be on the ground)
 
 ---
 
