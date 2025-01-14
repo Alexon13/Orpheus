@@ -1,7 +1,7 @@
 #include "InputSystem.h"
 
-InputSystem::InputSystem(EntityManager& em, ComponentManager& cm)
-    : entityManager(em), componentManager(cm), controllableEntity(0) {}
+InputSystem::InputSystem(EntityManager& em, ComponentManager& cm, PhysicsSystem& ps)
+    : entityManager(em), componentManager(cm), physicsSystem(ps), controllableEntity(0) {}
 
 void InputSystem::setControllableEntity(Entity entity) {
     controllableEntity = entity;
@@ -26,6 +26,11 @@ void InputSystem::handleInput(float deltaTime, SDL_Event& event) {
             if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_d) {
                 vel->dx = 0; // Stop horizontal movement when key is released
             }
+        } 
+
+        // Enable/Disable Gravity
+        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_g) {
+            physicsSystem.toggleGravity();
         }
 
         // Jumping logic

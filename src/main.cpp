@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
     ComponentManager componentManager;
     PhysicsSystem physicsSystem(entityManager, componentManager);
     SpawningSystem spawningSystem(entityManager, componentManager, physicsSystem);
-    InputSystem inputSystem(entityManager, componentManager);
+    InputSystem inputSystem(entityManager, componentManager, physicsSystem);
     DebugSystem debugSystem(renderer, entityManager, componentManager);
     RenderingSystem renderingSystem(renderer, entityManager, componentManager);
 
@@ -53,7 +53,8 @@ int main(int argc, char* argv[]) {
     Entity entity1 = spawningSystem.spawnEntity(0, 100, 0, 0, 50, 50, 1.0f);
     Entity entity2 = spawningSystem.spawnEntity(100, 100, 0, 0, 50, 50, 1.0f);
     Entity entity3 = spawningSystem.spawnEntity(200, 100, 0, 0, 50, 50, 1.0f);
-    Entity entity4 = spawningSystem.spawnEntity(500, 100, 0, 0, 50, 50, 1.0f);
+    Entity entity4 = spawningSystem.spawnEntity(350, 100, 0, 0, 50, 50, 1.0f);
+    Entity entity5 = spawningSystem.spawnEntity(500, 100, 0, 0, 50, 50, 1.0f);
 
     // Set one of the entities as controllable (Can't have more than one at the moment!)
     inputSystem.setControllableEntity(entity1);
@@ -62,11 +63,6 @@ int main(int argc, char* argv[]) {
     bool isRunning = true;
     SDL_Event event;
     float deltaTime = FRAME_RATE;
-
-    // Check for entity collisions
-    auto onCollision = [](Entity a, Entity b) {
-        std::cout << "Collision detected between Entity " << a << " and Entity " << b << std::endl;
-    };
 
     // Game Loop
     while (isRunning) {

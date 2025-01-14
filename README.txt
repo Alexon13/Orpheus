@@ -1,4 +1,4 @@
-Orpheus Engine
+The Orpheus Engine
 
 Project Overview:
 The **Orpheus Engine** is a custom 2D game engine designed and implemented from scratch. It features core systems for managing entities, components, physics, rendering, and collision detection, along with debugging tools for visualizing the internal state of the engine.
@@ -56,12 +56,13 @@ The *RenderingSystem* handles visual representation:
 ## 6. Spawning System
 The *SpawningSystem* handles spawning of entities:
 
-- Controls the spawning of entities and the assignment of their initial components.
+- Controls the spawning of new entities and the assignment of their initial components.
 
 ## 7. Input System
 The *InputSystem* handles the user input:
 
-- Control the input from the player and allows manual movement of entities.
+- Controls the input from the player and allows manual movement of entities.
+- Controls the dev tools.
 
 ---
 
@@ -93,9 +94,10 @@ The *InputSystem* handles the user input:
 
 ---
 
-# Controls
+# Controls (More to be added soon)
 
 - *Toggle Debug Mode*: Press `X` to enable or disable visual debugging.
+- *Toggle Gravity ON/OFF: Press `G` to enable or disable gravity.
 - *Move Left*: Press `A` to move left.
 - *Move Right*: Press `D` to move right.
 - *Jump*: Press `SPACE` to jump. (Must be on the ground)

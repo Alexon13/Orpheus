@@ -25,7 +25,9 @@ void PhysicsSystem::update(float deltaTime) {
 
         // Simulate Gravity
         if (pos && vel && mass && size) {
-            vel->dy += gravity * deltaTime;
+            if (gravityEnabled) {
+                vel->dy += gravity * deltaTime; // Apply gravity if enabled
+            }
 
             if (force) {
                 vel->dx += (force->fx / mass->value) * deltaTime;
@@ -73,6 +75,11 @@ void PhysicsSystem::update(float deltaTime) {
     collisionSystem.checkCollisions([this](Entity a, Entity b) {
         handleCollision(a, b);
     });
+}
+
+// Enable/Disable Gravity
+void PhysicsSystem::toggleGravity() {
+    gravityEnabled = !gravityEnabled;
 }
 
 // Handle collision between two entities

@@ -13,14 +13,18 @@ private:
     CollisionSystem collisionSystem;
 
     float gravity = 9.8f; // Gravity constant
+    bool gravityEnabled = true; // Current state of gravity (ON/OFF)
 
 public:
     PhysicsSystem(EntityManager& em, ComponentManager& cm);
 
     void addEntity(Entity entity);
     void removeEntity(Entity entity);
+
     // Update the physics with each frame
     void update(float deltaTime);
+    // Method to toggle gravity
+    void toggleGravity();
 
 private:
     // Handle collision between two entities
