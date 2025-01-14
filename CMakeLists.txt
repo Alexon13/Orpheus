@@ -24,6 +24,7 @@ include_directories(${SDL2_INCLUDE_DIRS})
 add_executable(Orpheus_Engine
     src/main.cpp
     src/EntityManager.cpp
+    src/WindowManager.cpp
     src/PhysicsSystem.cpp
     src/SpawningSystem.cpp
     src/InputSystem.cpp

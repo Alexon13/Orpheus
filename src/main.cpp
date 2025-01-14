@@ -10,7 +10,7 @@
 #include "RenderingSystem.h"
 #include <iostream>
 
-#define WINDOW_WIDTH 1400
+#define WINDOW_WIDTH 1500
 #define WINDOW_HEIGHT 900
 #define FRAME_RATE 0.032f // ~120 FPS
 
@@ -43,12 +43,16 @@ int main(int argc, char* argv[]) {
     // ECS (Entity-Component System) setup
     EntityManager entityManager;
     ComponentManager componentManager;
-    WindowManager windowManager(WINDOW_WIDTH, WINDOW_HEIGHT);
+    WindowManager windowManager;
     PhysicsSystem physicsSystem(entityManager, componentManager, windowManager);
     SpawningSystem spawningSystem(entityManager, componentManager, physicsSystem);
     InputSystem inputSystem(entityManager, componentManager, physicsSystem, windowManager);
     DebugSystem debugSystem(renderer, entityManager, componentManager);
     RenderingSystem renderingSystem(renderer, entityManager, componentManager);
+
+    // Set the size of the default window for testing purposes
+    windowManager.setScreenWidth(WINDOW_WIDTH);
+    windowManager.setScreenHeight(WINDOW_HEIGHT);
 
     // Spawn several entities (including controllable) for testing purposes
     // (x, y, dx, dy, width, height, mass)

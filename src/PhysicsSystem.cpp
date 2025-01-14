@@ -28,17 +28,20 @@ void PhysicsSystem::update(float deltaTime) {
         Force* force = componentManager.getComponent<Force>(entity);
         Size* size = componentManager.getComponent<Size>(entity);
 
-        // Simulate Gravity
         if (pos && vel && mass && size) {
+
+            // Simulate Gravity
             if (gravityEnabled) {
                 vel->dy += gravity * deltaTime; // Apply gravity if enabled
             }
 
+            // Simulate Acting Forces
             if (force) {
                 vel->dx += (force->fx / mass->value) * deltaTime;
                 vel->dy += (force->fy / mass->value) * deltaTime;
             }
-
+            
+            // Simulate Active Friction
             if (friction) {
                 vel->dx *= 1 - friction->coefficient;
                 vel->dy *= 1 - friction->coefficient;

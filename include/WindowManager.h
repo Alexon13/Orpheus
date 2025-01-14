@@ -1,15 +1,17 @@
 #pragma once
 
-// Storage and easy access to window size information
+// Storage and easy access to window size information (TODO: implement for multiple scenes in the future)
 class WindowManager {
 private:
     int screenWidth;
     int screenHeight;
 
 public:
-    WindowManager(int width, int height) 
-        : screenWidth(width), screenHeight(height) {}
+    WindowManager();
 
-    int getScreenWidth() const { return screenWidth; }
-    int getScreenHeight() const { return screenHeight; }
+    void setScreenWidth(int width);
+    void setScreenHeight(int height);
+
+    int getScreenWidth() const;
+    int getScreenHeight() const;
 };

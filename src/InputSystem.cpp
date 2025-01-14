@@ -8,7 +8,7 @@ void InputSystem::setControllableEntity(Entity entity) {
 }
 
 void InputSystem::handleInput(float deltaTime, SDL_Event& event) {
-    float groundLevel = windowManager.getScreenHeight();
+    int groundLevel = windowManager.getScreenHeight();
     if (controllableEntity == INVALID_ENTITY) return;
 
     Velocity* vel = componentManager.getComponent<Velocity>(controllableEntity);
