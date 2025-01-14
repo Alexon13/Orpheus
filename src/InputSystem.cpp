@@ -22,11 +22,7 @@ void InputSystem::handleInput(float deltaTime, SDL_Event& event) {
             } else if (event.key.keysym.sym == SDLK_d) {
                 vel->dx = 50; // Move right (D)
             }
-        } else if (event.type == SDL_KEYUP) {
-            if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_d) {
-                vel->dx = 0; // Stop horizontal movement when key is released
-            }
-        } 
+        }
 
         // Enable/Disable Gravity
         if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_g) {
