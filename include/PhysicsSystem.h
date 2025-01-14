@@ -2,6 +2,7 @@
 #include "Components.h"
 #include "EntityManager.h"
 #include "ComponentManager.h"
+#include "WindowManager.h"
 #include "CollisionSystem.h"
 #include <unordered_set>
 
@@ -10,13 +11,14 @@ private:
     std::unordered_set<Entity> entities;
     EntityManager& entityManager;
     ComponentManager& componentManager;
+    WindowManager& windowManager;
     CollisionSystem collisionSystem;
 
     float gravity = 9.8f; // Gravity constant
     bool gravityEnabled = true; // Current state of gravity (ON/OFF)
 
 public:
-    PhysicsSystem(EntityManager& em, ComponentManager& cm);
+    PhysicsSystem(EntityManager& em, ComponentManager& cm, WindowManager& wm);
 
     void addEntity(Entity entity);
     void removeEntity(Entity entity);

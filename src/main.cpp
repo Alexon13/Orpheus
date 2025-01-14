@@ -2,6 +2,7 @@
 #include "Components.h"
 #include "EntityManager.h"
 #include "ComponentManager.h"
+#include "WindowManager.h"
 #include "PhysicsSystem.h"
 #include "SpawningSystem.h"
 #include "InputSystem.h"
@@ -9,8 +10,8 @@
 #include "RenderingSystem.h"
 #include <iostream>
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
+#define WINDOW_WIDTH 1400
+#define WINDOW_HEIGHT 900
 #define FRAME_RATE 0.032f // ~120 FPS
 
 int main(int argc, char* argv[]) {
@@ -42,22 +43,26 @@ int main(int argc, char* argv[]) {
     // ECS (Entity-Component System) setup
     EntityManager entityManager;
     ComponentManager componentManager;
-    PhysicsSystem physicsSystem(entityManager, componentManager);
+    WindowManager windowManager(WINDOW_WIDTH, WINDOW_HEIGHT);
+    PhysicsSystem physicsSystem(entityManager, componentManager, windowManager);
     SpawningSystem spawningSystem(entityManager, componentManager, physicsSystem);
-    InputSystem inputSystem(entityManager, componentManager, physicsSystem);
+    InputSystem inputSystem(entityManager, componentManager, physicsSystem, windowManager);
     DebugSystem debugSystem(renderer, entityManager, componentManager);
     RenderingSystem renderingSystem(renderer, entityManager, componentManager);
 
     // Spawn several entities (including controllable) for testing purposes
     // (x, y, dx, dy, width, height, mass)
-    Entity entity1 = spawningSystem.spawnEntity(0, 100, 0, 0, 50, 50, 1.0f);
-    Entity entity2 = spawningSystem.spawnEntity(100, 100, 0, 0, 50, 50, 1.0f);
-    Entity entity3 = spawningSystem.spawnEntity(200, 100, 0, 0, 50, 50, 1.0f);
-    Entity entity4 = spawningSystem.spawnEntity(350, 100, 0, 0, 50, 50, 1.0f);
+    Entity entity1 = spawningSystem.spawnEntity(100, 100, 0, 0, 50, 50, 1.0f);
+    Entity entity2 = spawningSystem.spawnEntity(200, 100, 0, 0, 50, 50, 1.0f);
+    Entity entity3 = spawningSystem.spawnEntity(300, 100, 0, 0, 50, 50, 1.0f);
+    Entity entity4 = spawningSystem.spawnEntity(400, 100, 0, 0, 50, 50, 1.0f);
     Entity entity5 = spawningSystem.spawnEntity(500, 100, 0, 0, 50, 50, 1.0f);
+    Entity entity6 = spawningSystem.spawnEntity(600, 100, 0, 0, 50, 50, 1.0f);
+    Entity entity7 = spawningSystem.spawnEntity(700, 100, 0, 0, 50, 50, 1.0f);
+    Entity entity8 = spawningSystem.spawnEntity(800, 100, 0, 0, 50, 50, 1.0f);
 
     // Set one of the entities as controllable (Can't have more than one at the moment!)
-    inputSystem.setControllableEntity(entity3);
+    inputSystem.setControllableEntity(entity8);
 
     // Program flow parameters
     bool isRunning = true;

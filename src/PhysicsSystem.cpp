@@ -1,7 +1,7 @@
 #include "PhysicsSystem.h"
 
-PhysicsSystem::PhysicsSystem(EntityManager& em, ComponentManager& cm)
-    : entityManager(em), componentManager(cm), collisionSystem(cm) {}
+PhysicsSystem::PhysicsSystem(EntityManager& em, ComponentManager& cm, WindowManager& wm)
+    : entityManager(em), componentManager(cm), collisionSystem(cm), windowManager(wm) {}
 
 void PhysicsSystem::addEntity(Entity entity) {
     entities.insert(entity);
@@ -15,6 +15,11 @@ void PhysicsSystem::removeEntity(Entity entity) {
 
 // Update the physics with each frame
 void PhysicsSystem::update(float deltaTime) {
+    
+    // Get window size information
+    int window_width = windowManager.getScreenWidth();
+    int window_height = windowManager.getScreenHeight();
+
     for (Entity entity : entities) {
         Position* pos = componentManager.getComponent<Position>(entity);
         Velocity* vel = componentManager.getComponent<Velocity>(entity);
@@ -45,7 +50,7 @@ void PhysicsSystem::update(float deltaTime) {
             // Logic for dragging on the floor
             const float floorFriction = 0.01f; // Energy loss due to dragging on the floor (1%)
 
-            if (pos->y + size->height > 600) {
+            if (pos->y + size->height > window_height) {
                 vel->dx *= 1 - floorFriction;
             }
 
@@ -56,16 +61,16 @@ void PhysicsSystem::update(float deltaTime) {
                 pos->x = 0;
                 vel->dx = -vel->dx * wallFriction;
             }
-            if (pos->x + size->width > 800) { // Right wall
-                pos->x = 800 - size->width;
+            if (pos->x + size->width > window_width) { // Right wall
+                pos->x = window_width - size->width;
                 vel->dx = -vel->dx * wallFriction;
             }
             if (pos->y < 0) { // Ceiling
                 pos->y = 0;
                 vel->dy = -vel->dy * wallFriction;
             }
-            if (pos->y + size->height > 600) { // Floor
-                pos->y = 600 - size->height;
+            if (pos->y + size->height > window_height) { // Floor
+                pos->y = window_height - size->height;
                 vel->dy = -vel->dy * wallFriction / 1.5f; // Decrease velocity further when hitting the ground
             }
         }

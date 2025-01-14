@@ -1,13 +1,14 @@
 #include "InputSystem.h"
 
-InputSystem::InputSystem(EntityManager& em, ComponentManager& cm, PhysicsSystem& ps)
-    : entityManager(em), componentManager(cm), physicsSystem(ps), controllableEntity(0) {}
+InputSystem::InputSystem(EntityManager& em, ComponentManager& cm, PhysicsSystem& ps, WindowManager& wm)
+    : entityManager(em), componentManager(cm), physicsSystem(ps), windowManager(wm), controllableEntity(0) {}
 
 void InputSystem::setControllableEntity(Entity entity) {
     controllableEntity = entity;
 }
 
 void InputSystem::handleInput(float deltaTime, SDL_Event& event) {
+    float groundLevel = windowManager.getScreenHeight();
     if (controllableEntity == INVALID_ENTITY) return;
 
     Velocity* vel = componentManager.getComponent<Velocity>(controllableEntity);
@@ -24,12 +25,12 @@ void InputSystem::handleInput(float deltaTime, SDL_Event& event) {
             }
         }
 
-        // Enable/Disable Gravity
+        // Enable/Disable Gravity (G)
         if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_g) {
             physicsSystem.toggleGravity();
         }
 
-        // Jumping logic
+        // Jumping logic (SPACE)
         if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE && !isJumping) {
             vel->dy = -50; // Jump velocity
             isJumping = true;
