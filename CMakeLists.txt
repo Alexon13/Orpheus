@@ -27,8 +27,8 @@ add_executable(Orpheus_Engine
     src/WindowManager.cpp
     src/PhysicsSystem.cpp
     src/SpawningSystem.cpp
-    src/InputSystem.cpp
     src/DebugSystem.cpp
+    src/InputSystem.cpp
     src/RenderingSystem.cpp
 )
 

@@ -5,8 +5,8 @@
 #include "WindowManager.h"
 #include "PhysicsSystem.h"
 #include "SpawningSystem.h"
-#include "InputSystem.h"
 #include "DebugSystem.h"
+#include "InputSystem.h"
 #include "RenderingSystem.h"
 #include <iostream>
 
@@ -46,8 +46,8 @@ int main(int argc, char* argv[]) {
     WindowManager windowManager;
     PhysicsSystem physicsSystem(entityManager, componentManager, windowManager);
     SpawningSystem spawningSystem(entityManager, componentManager, physicsSystem);
-    InputSystem inputSystem(entityManager, componentManager, physicsSystem, windowManager);
     DebugSystem debugSystem(renderer, entityManager, componentManager);
+    InputSystem inputSystem(entityManager, componentManager, physicsSystem, windowManager, debugSystem);
     RenderingSystem renderingSystem(renderer, entityManager, componentManager);
 
     // Set the size of the default window for testing purposes
@@ -83,9 +83,6 @@ int main(int argc, char* argv[]) {
                 // Pass the event to the InputSystem and handle input
                 inputSystem.handleInput(deltaTime, event);
             }
-            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_x) {
-                debugSystem.toggleDebug(); // Toggle debug mode with 'X' key
-            } 
         }
 
         // Update physics each frame

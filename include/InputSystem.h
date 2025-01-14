@@ -5,6 +5,7 @@
 #include "ComponentManager.h"
 #include "WindowManager.h"
 #include "PhysicsSystem.h"
+#include "DebugSystem.h"
 
 using Entity = std::size_t;
 const Entity INVALID_ENTITY = static_cast<Entity>(-1); // Used to prevent null access
@@ -15,12 +16,13 @@ private:
     ComponentManager& componentManager;
     PhysicsSystem& physicsSystem;
     WindowManager& windowManager;
+    DebugSystem& debugSystem;
 
     Entity controllableEntity = INVALID_ENTITY; // The entity controlled by the player
     bool isJumping = false;
 
 public:
-    InputSystem(EntityManager& em, ComponentManager& cm, PhysicsSystem& ps, WindowManager& wm);
+    InputSystem(EntityManager& em, ComponentManager& cm, PhysicsSystem& ps, WindowManager& wm, DebugSystem& ds);
 
     void setControllableEntity(Entity entity);
     void handleInput(float deltaTime, SDL_Event& event);
