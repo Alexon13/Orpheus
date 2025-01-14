@@ -72,6 +72,7 @@ The *InputSystem* handles the user input:
 - *Components.h*: Defines all the component types (e.g., `Position`, `Velocity`, etc.).
 - *EntityManager.h*: Manages entities and their lifecycle.
 - *ComponentManager.h*: Handles component storage and retrieval.
+- *WindowManager.h*: Used for simplified storage and retrieval of window settings.
 - *PhysicsSystem.h*: Updates entity states based on physics calculations.
 - *CollisionSystem.h*: Detects and handles collisions between entities.
 - *SpawningSystem.h*: Manages the spawning of entities with different components.
