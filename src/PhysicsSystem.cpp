@@ -66,7 +66,7 @@ void PhysicsSystem::update(float deltaTime) {
             }
             if (pos->y + size->height > 600) { // Floor
                 pos->y = 600 - size->height;
-                vel->dy = -vel->dy * wallFriction / 2; // Decrease velocity further when hitting the ground
+                vel->dy = -vel->dy * wallFriction / 1.5f; // Decrease velocity further when hitting the ground
             }
         }
     }

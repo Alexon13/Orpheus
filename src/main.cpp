@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
     Entity entity5 = spawningSystem.spawnEntity(500, 100, 0, 0, 50, 50, 1.0f);
 
     // Set one of the entities as controllable (Can't have more than one at the moment!)
-    inputSystem.setControllableEntity(entity1);
+    inputSystem.setControllableEntity(entity3);
 
     // Program flow parameters
     bool isRunning = true;
