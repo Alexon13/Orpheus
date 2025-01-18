@@ -12,7 +12,7 @@ The **Orpheus Engine** is a custom 2D game engine designed and implemented from 
 
 # Features
 
-## 1. Entity-Component System (ECS)
+## 1️⃣ Entity-Component System (ECS)
 The engine uses an Entity-Component System (ECS) architecture to manage game objects and their behavior:
 
 - *EntityManager*:
@@ -23,7 +23,7 @@ The engine uses an Entity-Component System (ECS) architecture to manage game obj
   - Manages components for entities, allowing dynamic addition and retrieval.
   - Stores components such as `Position`, `Velocity`, `Size`, `Mass`, `Force`, and `Friction`.
 
-## 2. Physics System
+## 2️⃣ Physics System
 The *PhysicsSystem* updates the positions and velocities of entities based on forces, gravity, and friction. It handles:
 
 - Gravity simulation.
@@ -33,31 +33,31 @@ The *PhysicsSystem* updates the positions and velocities of entities based on fo
 - Collision detection using the integrated *CollisionSystem*.
 - Collision response with realistic physics (elastic collision and friction-based energy loss).
 
-## 3. Collision System
+## 3️⃣ Collision System
 The *CollisionSystem* detects and processes collisions between entities:
 
 - Detects overlapping entities using their `Position` and `Size` components.
 - Calls a collision handler to apply responses, such as reversing or adjusting velocities based on a friction coefficient during collisions.
 
-## 4. Debug System
+## 4️⃣ Debug System
 The *DebugSystem* provides visual tools for inspecting the state of the engine:
 
 - Renders collision boxes around entities.
 - Displays velocity and force vectors.
 - Can be toggled on and off using the `X` key.
 
-## 5. Rendering System
+## 5️⃣ Rendering System
 The *RenderingSystem* handles visual representation:
 
 - Renders entities with their assigned colors or textures.
 - Supports explicit rendering of specific entities and their components for precise control.
 
-## 6. Spawning System
+## 6️⃣ Spawning System
 The *SpawningSystem* handles spawning of entities:
 
 - Controls the spawning of new entities and the assignment of their initial components.
 
-## 7. Input System
+## 7️⃣ Input System
 The *InputSystem* handles the user input:
 
 - Controls the input from the player and allows manual movement of entities.
@@ -106,23 +106,23 @@ The *InputSystem* handles the user input:
 
 # Installation
 
-## 1. Ensure SDL2 lib is installed
+## 1️⃣ Ensure SDL2 lib is installed
 
-## 2. Clone the repository:
+## 2️⃣ Clone the repository:
 ```bash
-   git clone <repository-url>
-   cd Orpheus
+git clone https://github.com/LNikolov01/Orpheus.git
+cd Orpheus
 ```
 
-## 3. Build the project using CMake:
+## 3️⃣ Build the project using CMake:
 ```bash
-   cmake -S . -B build
-   cmake --build build
+cmake -S . -B build
+cmake --build build
 ```
 
-## 4. Run the executable:
+## 4️⃣ Run the executable:
 ```bash
-   ./build/OrpheusEngine
+./build/Orpheus_Engine
 ```
 
 ---
