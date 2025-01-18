@@ -1,4 +1,4 @@
-The Orpheus Engine
+# The Orpheus Engine
 
 The **Orpheus Engine** is a custom 2D game engine designed and implemented from scratch. It features core systems for managing entities, components, physics, rendering, and collision detection, along with debugging tools for visualizing the internal state of the engine.
 
@@ -106,29 +106,35 @@ The *InputSystem* handles the user input:
 
 # How to Run
 
-1. Ensure SDL2 lib is installed
+## 1. Ensure SDL2 lib is installed
 
-2. Clone the repository:
+## 2. Clone the repository:
+```bash
    git clone <repository-url>
    cd Orpheus
+```
 
-3. Build the project using CMake:
+## 3. Build the project using CMake:
+```bash
    cmake -S . -B build
    cmake --build build
+```
 
-4. Run the executable:
+## 4. Run the executable:
+```bash
    ./build/OrpheusEngine
+```
 
 ---
 
 # Future Plans
 
-- *Scene System*: Implement a scene system that manages active scenes and transitions between them.
-- *Audio System*: Add support for sound effects and background music.
-- *Particle System*: Implement a particle system for specific events (like explosions).
-- *Animation System*: Implement sprite-based animations.
-- *Scripting System*: Introduce scripting for customizable entity behavior.
-- *Advanced Physics*: Incorporate rotational physics and torque.
+✅ *Scene System*: Implement a scene system that manages active scenes and transitions between them.
+✅ *Audio System*: Add support for sound effects and background music.
+✅ *Particle System*: Implement a particle system for specific events (like explosions).
+✅ *Animation System*: Implement sprite-based animations.
+✅ *Scripting System*: Introduce scripting for customizable entity behavior.
+✅ *Advanced Physics*: Incorporate rotational physics and torque.
 
 ---
 
