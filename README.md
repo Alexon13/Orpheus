@@ -104,7 +104,7 @@ The *InputSystem* handles the user input:
 
 ---
 
-# How to Run
+# Installation
 
 ## 1. Ensure SDL2 lib is installed
 
@@ -129,12 +129,12 @@ The *InputSystem* handles the user input:
 
 # Future Plans
 
-✅ *Scene System*: Implement a scene system that manages active scenes and transitions between them.
-✅ *Audio System*: Add support for sound effects and background music.
-✅ *Particle System*: Implement a particle system for specific events (like explosions).
-✅ *Animation System*: Implement sprite-based animations.
-✅ *Scripting System*: Introduce scripting for customizable entity behavior.
-✅ *Advanced Physics*: Incorporate rotational physics and torque.
+- ✅ *Scene System*: Implement a scene system that manages active scenes and transitions between them.
+- ✅ *Audio System*: Add support for sound effects and background music.
+- ✅ *Particle System*: Implement a particle system for specific events (like explosions).
+- ✅ *Animation System*: Implement sprite-based animations.
+- ✅ *Scripting System*: Introduce scripting for customizable entity behavior.
+- ✅ *Advanced Physics*: Incorporate rotational physics and torque.
 
 ---
 
