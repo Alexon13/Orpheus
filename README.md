@@ -1,4 +1,4 @@
-# The Orpheus Engine ⚙️
+# ⚙️ The Orpheus Engine ⚙️
 
 The **Orpheus Engine** is a custom 2D game engine designed and implemented from scratch. It features core systems for managing entities, components, physics, rendering, and collision detection, along with debugging tools for visualizing the internal state of the engine.
 
