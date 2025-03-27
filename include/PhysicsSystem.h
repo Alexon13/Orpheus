@@ -14,7 +14,7 @@ private:
     WindowManager& windowManager;
     CollisionSystem collisionSystem;
 
-    float gravity = 9.8f; // Gravity constant
+    float gravity = 35.5f; // Gravity constant
     bool gravityEnabled = true; // Current state of gravity (ON/OFF)
 
 public:

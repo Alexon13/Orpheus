@@ -19,9 +19,9 @@ void InputSystem::handleInput(float deltaTime, SDL_Event& event) {
         // Horizontal movement
         if (event.type == SDL_KEYDOWN) {
             if (event.key.keysym.sym == SDLK_a) {
-                vel->dx = -50; // Move left with 'A' key
+                vel->dx = -80; // Move left with 'A' key
             } else if (event.key.keysym.sym == SDLK_d) {
-                vel->dx = 50; // Move right with 'D' key
+                vel->dx = 80; // Move right with 'D' key
             }
         }
 
@@ -37,7 +37,7 @@ void InputSystem::handleInput(float deltaTime, SDL_Event& event) {
 
         // Jumping logic; press 'SPACE' key
         if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE && !isJumping) {
-            vel->dy = -50; // Jump velocity
+            vel->dy = -80; // Jump velocity
             isJumping = true;
         }
 

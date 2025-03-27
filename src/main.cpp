@@ -9,10 +9,10 @@
 #include "InputSystem.h"
 #include "RenderingSystem.h"
 #include <iostream>
+#include <chrono>
 
 #define WINDOW_WIDTH 1500
 #define WINDOW_HEIGHT 900
-#define FRAME_RATE 0.032f // ~120 FPS
 
 int main(int argc, char* argv[]) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -71,10 +71,22 @@ int main(int argc, char* argv[]) {
     // Program flow parameters
     bool isRunning = true;
     SDL_Event event;
-    float deltaTime = FRAME_RATE;
+    using Clock = std::chrono::high_resolution_clock;
+    using TimePoint = std::chrono::time_point<Clock>;
+
+    TimePoint previousFrameTime = Clock::now();
 
     // Game Loop
     while (isRunning) {
+        // Get current time
+        TimePoint currentFrameTime = Clock::now();
+
+        // Calculate deltaTime in seconds (float)
+        std::chrono::duration<float> delta = currentFrameTime - previousFrameTime;
+        float deltaTime = delta.count();  // deltaTime in seconds
+
+        previousFrameTime = currentFrameTime;
+
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 isRunning = false;
